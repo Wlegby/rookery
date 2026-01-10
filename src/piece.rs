@@ -1,5 +1,7 @@
+use std::vec;
+
 // The chess Piece Types
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Default)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Default, Hash)]
 pub enum Type {
     Pawn,
     Rook,
@@ -33,10 +35,30 @@ impl Type {
             _ => Type::Empty,
         }
     }
+    pub fn get_move_offsets(&self) -> Vec<i32> {
+        match self {
+            Type::Rook => {
+                vec![8, -8, 1, -1]
+            }
+            Type::Knight => {
+                vec![21, -21, 19, -19, 12, -12, 8, -8]
+            }
+            Type::Bishop => {
+                vec![11, -11, 9, -9]
+            }
+            Type::King => {
+                vec![11, -11, 9, -9, 8, -8, 1, -1]
+            }
+            Type::Queen => {
+                vec![11, -11, 9, -9, 8, -8, 1, -1]
+            }
+            _ => vec![],
+        }
+    }
 }
 
 // The chess Piece Colors
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Default)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Default, Hash)]
 pub enum Color {
     Black,
     White,
@@ -66,15 +88,28 @@ pub struct Piece {
     _type: Type,
     color: Color,
     has_moved: bool,
+    position: usize,
 }
 
 impl Piece {
-    pub fn new(_type: Type, color: Color) -> Self {
+    pub fn new(_type: Type, color: Color, position: usize) -> Self {
         Self {
             _type,
             color,
             has_moved: false,
+            position,
         }
+    }
+    pub fn new_detail(_type: Type, color: Color, has_moved: bool, position: usize) -> Self {
+        Self {
+            _type,
+            color,
+            has_moved,
+            position,
+        }
+    }
+    pub fn get_position(&self) -> usize {
+        self.position
     }
     pub fn get_type(&self) -> Type {
         self._type

@@ -1,3 +1,4 @@
+#![allow(clippy::unusual_byte_groupings)]
 pub mod board;
 pub mod piece;
 
@@ -9,10 +10,5 @@ mod tests {
     #[test]
     fn test() {
         let board = Board::new();
-        let mut output = String::new();
-
-        // dbg the board
-
-        println!("{}", output);
     }
 }
